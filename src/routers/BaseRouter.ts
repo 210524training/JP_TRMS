@@ -1,7 +1,9 @@
 import express, { Router } from 'express';
-import User from '../modules/User';
+// import User from '../modules/User';
 import log from '../log';
 import userService from '../services/userService';
+import employeeRouter from './employeeRouter';
+import stagingRouter from './stagingRouter';
 
 const baseRouter = Router();
 
@@ -14,14 +16,16 @@ async function login(req: express.Request, res: express.Response): Promise<void>
     res.status(409).send();
     return;
   }
-  if(!await userService.login(username, password)) {
+
+  const user = await userService.login(username, password);
+  if(!user) {
     res.status(401).send();
     return;
   }
 
   req.session.isLoggedIn = true;
 
-  req.session.user = new User(username, password, 'Employee');
+  req.session.user = user;
 
   res.status(202).send();
 
@@ -42,5 +46,7 @@ async function logout(req: express.Request, res: express.Response): Promise<void
 
 baseRouter.post('/login', login);
 baseRouter.post('/logout', logout);
+baseRouter.use('/employee', employeeRouter);
+baseRouter.use('/staging', stagingRouter);
 
 export default baseRouter;

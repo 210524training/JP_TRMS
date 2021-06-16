@@ -26,17 +26,27 @@ class UserService {
 
   // checks if a user exists in the DB and the password is correct then sets currentUser
   // returns true on successful login false otherwise
-  async login(userName: string, password: string): Promise<boolean> {
+  async login(userName: string, password: string): Promise<User | undefined> {
     const loginUser = await this.findUserName(userName);
 
     if(!loginUser) {
       console.log('User does not exist\n');
     } else if(loginUser.password !== password) {
       console.log('Password is incorrect\n');
-    } else {
-      return true;
     }
-    return false;
+
+    return loginUser;
+  }
+
+  async adjustReimbursment(user: User, amountToAdjust: number): Promise<boolean> {
+    if(user.role !== 'Employee') {
+      return false;
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    user.reimbursment += amountToAdjust;
+
+    return this.repo.updateUser(user);
   }
 }
 

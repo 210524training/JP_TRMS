@@ -38,11 +38,12 @@ class UserRepo {
       Key: {
         userName,
       },
-      ProjectionExpression: '#name, #pass, #role',
+      ProjectionExpression: '#name, #pass, #role, #reimburse',
       ExpressionAttributeNames: {
         '#name': 'userName',
         '#pass': 'password',
         '#role': 'role',
+        '#reimburse': 'reimbursment',
       },
     };
 
