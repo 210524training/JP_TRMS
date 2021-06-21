@@ -58,6 +58,10 @@ class ReimbursmentService {
         break;
       }
       case 'Benefits Coordinator': {
+        reimbursement.nextStage = 'Approved';
+        break;
+      }
+      case 'Approved': {
         reimbursement.nextStage = 'Done';
         break;
       }

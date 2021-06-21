@@ -8,7 +8,6 @@ class ReimbursmentRepo {
       private docClient: DocumentClient = dynamo,
   ) {}
 
-  // create a new reimbursement UNTESTED
   async addReimbursment(reimbursment: Reimbursment): Promise<boolean> {
     const params: DocumentClient.PutItemInput = {
       TableName: 'reimbursements',
@@ -31,7 +30,6 @@ class ReimbursmentRepo {
     }
   }
 
-  // update a given reimbursement UNTESTED
   async updateReimbursment(reimbursment: Reimbursment): Promise<boolean> {
     const params: DocumentClient.UpdateItemInput = {
       TableName: 'reimbursements',
