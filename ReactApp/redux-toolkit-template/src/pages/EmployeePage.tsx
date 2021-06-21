@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import EmployeeWork from '../components/EmployeeWork';
+import ReviewerWork from '../components/ReviewerWork';
 import { logoutAsync, selectUser, UserState } from '../features/UserSlice/UserSlice';
 
 const EmployeePage: React.FC<unknown> = (props) => {
@@ -24,14 +25,15 @@ const EmployeePage: React.FC<unknown> = (props) => {
             <input type="submit" className="btn btn-primary" value='Logout' onClick={handleLogout} style={{float: 'right'}}/>
             { user && <h1>Welcome {user.userName}</h1>}
             <br/>
-            {/* work component */}
             { (user && user.role === 'Employee') ? (
                 <>
                   <EmployeeWork/>
                   <input type="submit" className="btn btn-primary" value='Open new reimbursement form' onClick={newReimbursement}/>
                 </>
             ) : (
-                <> </>
+                <>
+                    <ReviewerWork/> 
+                </>
             )
             }
         </div>

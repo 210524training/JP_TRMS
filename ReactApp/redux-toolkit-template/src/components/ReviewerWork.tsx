@@ -1,21 +1,33 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getEmpWorkAsync, ReimbursementState, selectReimbursements } from '../features/EmployeeWorkSlice/EmployeeWorkSlice';
-import WorkItem from './WorkItem';
+import { getReviewWorkAsync, ReimbursementState, selectReimbursements } from '../features/EmployeeWorkSlice/EmployeeWorkSlice';
+import ReviewButtons from './ReviewButtons';
+import ReviewItem from './ReviewItem';
 
-const EmployeeWork: React.FC<unknown> = (props) => {
+const ReviewerWork: React.FC<unknown> = (props) => {
     const dispatch = useAppDispatch();
     const reimbursements = useAppSelector<ReimbursementState>(selectReimbursements) || [];
+
+    const handleApprove = async (id: number) => {
+        console.log(id);
+    }
+
+    const handleReject = async (id: number) => {
+        console.log(id);
+    }
 
     // dynamically fill the drop down options with the keys from options
     const workItems: JSX.Element[] = [];
 
     for(let i = 0; i < reimbursements.length; i++) {
-        workItems.push(<WorkItem reimburementIndex={i}></WorkItem>)
+        workItems.push(<>
+                            <ReviewItem reimburementIndex={i}></ReviewItem>
+                            <ReviewButtons id={reimbursements[i].id} approve={handleApprove} reject={handleReject}></ReviewButtons>
+                        </>)
     }
 
     const handleRefresh = async () => {
-      await dispatch(getEmpWorkAsync({}));
+      await dispatch(getReviewWorkAsync({}));
     };
     
     // plan add left right arrow to change current work item
@@ -29,4 +41,4 @@ const EmployeeWork: React.FC<unknown> = (props) => {
       );
 };
 
-export default EmployeeWork;
+export default ReviewerWork;

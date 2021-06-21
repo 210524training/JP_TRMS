@@ -40,3 +40,9 @@ export const getEmployeeReimbursement = async (): Promise<Reimbursment[]> => {
 
   return reimbursements;
 }
+
+export const getReviewReimbursement = async (): Promise<Reimbursment[]> => {
+  const {data: reimbursements} = await grubdashClient.get<Reimbursment[]>('/staging');
+
+  return reimbursements;
+}

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getEmployeeReimbursement } from "../../ServerConnector/TRMS.api";
+import { getEmployeeReimbursement, getReviewReimbursement } from "../../ServerConnector/TRMS.api";
 import { RootState } from "../../app/store";
 import Reimbursment from '../../modules/Reimbursements';
 
@@ -11,6 +11,19 @@ export const getEmpWorkAsync = createAsyncThunk<Reimbursment[], unknown>(
 
     try {
       const response = await getEmployeeReimbursement();
+      return response;
+    } catch(error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getReviewWorkAsync = createAsyncThunk<Reimbursment[], unknown>(
+  'employee/getReviewWork/async',
+  async (empty, thunkAPI) => {
+
+    try {
+      const response = await getReviewReimbursement();
       return response;
     } catch(error) {
       return thunkAPI.rejectWithValue(error);
@@ -35,6 +48,15 @@ export const reimbursementSlice = createSlice({
         return action.payload;
       })
       .addCase(getEmpWorkAsync.rejected, (state, action) => {
+        console.log(action.error);
+      })
+      .addCase(getReviewWorkAsync.pending, (state) => {
+        // return null;
+      })
+      .addCase(getReviewWorkAsync.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(getReviewWorkAsync.rejected, (state, action) => {
         console.log(action.error);
       })
   },
