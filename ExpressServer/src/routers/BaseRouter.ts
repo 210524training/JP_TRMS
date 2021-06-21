@@ -10,7 +10,6 @@ const baseRouter = Router();
 async function login(req: express.Request, res: express.Response): Promise<void> {
   const { username, password } = req.body;
 
-  console.log(username);
   if(req.session.isLoggedIn) {
     log.error('Login was evoked when a user was already logged in\n');
     res.status(409).send();
@@ -26,8 +25,9 @@ async function login(req: express.Request, res: express.Response): Promise<void>
   req.session.isLoggedIn = true;
 
   req.session.user = user;
+  const { userName, role, reimbursment } = user;
 
-  res.status(202).send();
+  res.status(202).json({ userName, role, reimbursment });
 
   log.debug(`${username} logged in`);
 }
