@@ -34,6 +34,10 @@ const ReviewItem: React.FC<Props> = (props) => {
     return (
         <div className='container'>
           <h2>Work item #{props.reimburementIndex}</h2>
+          <h5>Requester</h5>
+          <p>
+            {reimbursements[props.reimburementIndex].employee}
+          </p>
           <h5>Location</h5>
           <p>
             {reimbursements[props.reimburementIndex].location}
