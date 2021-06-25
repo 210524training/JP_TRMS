@@ -73,7 +73,7 @@ const WorkItem: React.FC<Props> = (props) => {
             </p>
             <label htmlFor="newDescField" className="form-label">Give a new description</label>
             <textarea className="form-control" id="newDescField" onChange={handleUpdateDescriptionChange}/>
-            <button className="btn btn-success" onClick={handleResubmit}>Resubmit</button>
+            <button className="btn btn-success" onClick={handleResubmit} style={{margin: '10px'}}>Resubmit</button>
           </> 
           : 
           <>
@@ -90,7 +90,7 @@ const WorkItem: React.FC<Props> = (props) => {
                 accept="image/png, image/jpeg"
                 onChange={onFileChange}></input>
           <br/>
-          <button className="btn btn-success" onClick={handleSubmit}>Submit</button>
+          <button className="btn btn-success" onClick={handleSubmit} style={{margin: '10px'}}>Submit</button>
           </>
            : <></>}
         </div>

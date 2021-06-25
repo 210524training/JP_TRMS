@@ -24,13 +24,13 @@ const EmployeePage: React.FC<unknown> = (props) => {
 
     return (
         <div className='container'>
-            <input type="submit" className="btn btn-primary" value='Logout' onClick={handleLogout} style={{float: 'right'}}/>
+            <input type="submit" className="btn btn-primary" value='Logout' onClick={handleLogout} style={{float: 'right', margin: '10px'}}/>
             { user && <h1>Welcome {user.userName}</h1>}
             <br/>
             { (user && user.role === 'Employee') ? (
                 <>
                   <EmployeeWork/>
-                  <input type="submit" className="btn btn-primary" value='Open new reimbursement form' onClick={newReimbursement}/>
+                  <input type="submit" className="btn btn-primary" value='Open new reimbursement form' onClick={newReimbursement} style={{margin: '10px'}}/>
                 </>
             ) : (
                 <>

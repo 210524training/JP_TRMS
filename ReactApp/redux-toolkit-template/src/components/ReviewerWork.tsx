@@ -39,11 +39,11 @@ const ReviewerWork: React.FC<unknown> = (props) => {
     return (
         <div className='container'>
           <h2>My work items</h2>
-          <button className="btn btn-primary" onClick={handleRefresh}><span className="glyphicon glyphicon-refresh"></span> Refresh</button>
+          <button className="btn btn-primary" onClick={handleRefresh} style={{margin: '5px'}}><span className="glyphicon glyphicon-refresh"></span> Refresh</button>
           {reimbursements.length > 0 ? (<ReviewItem reimburementIndex={workIndex}></ReviewItem>) : (<></>) }
           <span>
-            <button className="btn btn-primary" onClick={decrementWork}>{'<'}-</button>
-            <button className="btn btn-primary" onClick={incrementWork}>-{'>'}</button>
+            <button className="btn btn-primary" onClick={decrementWork} style={{margin: '2px'}}>{'<'}-</button>
+            <button className="btn btn-primary" onClick={incrementWork} style={{margin: '2px'}}>-{'>'}</button>
           </span>
         </div>
       );

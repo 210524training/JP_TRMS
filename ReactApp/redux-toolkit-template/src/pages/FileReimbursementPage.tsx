@@ -96,7 +96,7 @@ const FileReimbursementPage: React.FC<unknown> = (props) => {
         <div>
           {<p>You reimbursement amount will be: ${cost*(options.get(type) || 0)}</p> }
         </div>
-        <input type="submit" className="btn btn-primary" value='Submit' />
+        <input type="submit" className="btn btn-primary" value='Submit' style={{margin: '5px'}} />
       </form>
     </div>
   );
