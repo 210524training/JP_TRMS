@@ -38,6 +38,9 @@ export const reimbursementSlice = createSlice({
     getWork: (state, action: PayloadAction<Reimbursment[]>) => {
       return action.payload;
     },
+    resetWork: (state) => {
+      return null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -62,7 +65,7 @@ export const reimbursementSlice = createSlice({
   },
 });
 
-export const { getWork } = reimbursementSlice.actions;
+export const { getWork, resetWork } = reimbursementSlice.actions;
 
 export const selectReimbursements = (state: RootState) => state.reimburements;
 

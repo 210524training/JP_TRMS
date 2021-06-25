@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import EmployeeWork from '../components/EmployeeWork';
 import ReviewerWork from '../components/ReviewerWork';
 import { logoutAsync, selectUser, UserState } from '../features/UserSlice/UserSlice';
+import { resetWork } from '../features/EmployeeWorkSlice/EmployeeWorkSlice'
 
 const EmployeePage: React.FC<unknown> = (props) => {
     const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ const EmployeePage: React.FC<unknown> = (props) => {
 
     const handleLogout = async () => {
         await dispatch(logoutAsync());
+        dispatch(resetWork());
     
         history.push('/');
     }

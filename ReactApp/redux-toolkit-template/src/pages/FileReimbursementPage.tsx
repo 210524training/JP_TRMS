@@ -56,8 +56,8 @@ const FileReimbursementPage: React.FC<unknown> = (props) => {
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // if the entered date is not 2 weeks ahead do not accept
-    // 2*7*24*60*60*1000 is 2 weeks in millisecoonds
-    if(date > Date.now() + (2*7*24*60*60*1000)) {
+    // 1123200000 is 2 weeks minus 1 day in millisecoonds
+    if(date > Date.now() + (1123200000)) {
       await sendReimbursementRequest(cost*(options.get(type) || 0), date, grade, location, description);
 
       history.push('/employee');

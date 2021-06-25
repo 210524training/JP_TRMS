@@ -1,4 +1,4 @@
-export type Stages = 'Employee' | 'Direct Supervisor' | 'Department Head' | 'Benefits Coordinator' | 'Approved' | 'Done';
+export type Stages = 'Employee' | 'Direct Supervisor' | 'Department Head' | 'Benefits Coordinator' | 'Approved' | 'Graded' | 'Done';
 
 export default class Reimbursment {
   constructor(

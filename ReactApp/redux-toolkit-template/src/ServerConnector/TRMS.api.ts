@@ -42,7 +42,22 @@ export const getEmployeeReimbursement = async (): Promise<Reimbursment[]> => {
 }
 
 export const getReviewReimbursement = async (): Promise<Reimbursment[]> => {
-  const {data: reimbursements} = await grubdashClient.get<Reimbursment[]>('/staging');
+  const {data: reimbursements} = await grubdashClient.get<Reimbursment[]>('/reimbursement');
 
   return reimbursements;
+}
+
+export const sendApproveReimbursement = async (id: number, description: string) => {
+  await grubdashClient.put('/reimbursement/approve', {id, description});
+}
+
+export const sendDenyReimbursement = async (id: number, description: string) => {
+  await grubdashClient.put('/reimbursement/decline', {id, description});
+}
+
+export const sendFile = async (id: number, file: File) => {
+  const formData = new FormData();
+  formData.append('id', id.toString());
+  formData.append('grade', file);
+  await grubdashClient.post('/reimbursement/file', formData);
 }
