@@ -1,5 +1,6 @@
 import userRepo from '../repos/reimbursmentRepo';
 import Reimbursment from '../modules/Reimbursment';
+import { Roles } from '../modules/User';
 
 class ReimbursmentService {
   constructor(
@@ -24,7 +25,11 @@ class ReimbursmentService {
   }
 
   // returns all reimbursements in a particular stage
-  async getMyWork(role :string): Promise<Reimbursment[]> {
+  async getMyWork(role :Roles): Promise<Reimbursment[]> {
+    if(role === 'Benefits Coordinator') {
+      return this.repo.getBenCoStage();
+    }
+
     return this.repo.getByStage(role);
   }
 
@@ -42,10 +47,11 @@ class ReimbursmentService {
   }
 
   // move a reimbursement to the next stage
-  async updateToNextStage(id: number): Promise<boolean> {
+  async updateToNextStage(id: number, description: string): Promise<boolean> {
     const reimbursement = await this.repo.getById(id);
 
     if(reimbursement) {
+      reimbursement.description = description;
       reimbursement.stage = reimbursement.nextStage;
 
       switch (reimbursement.nextStage) {
@@ -62,6 +68,10 @@ class ReimbursmentService {
         break;
       }
       case 'Approved': {
+        reimbursement.nextStage = 'Graded';
+        break;
+      }
+      case 'Graded': {
         reimbursement.nextStage = 'Done';
         break;
       }
@@ -78,10 +88,11 @@ class ReimbursmentService {
   }
 
   // move back to employee stage
-  async kickBackStage(id: number): Promise<boolean> {
+  async kickBackStage(id: number, description: string): Promise<boolean> {
     const reimbursement = await this.repo.getById(id);
 
     if(reimbursement) {
+      reimbursement.description = description;
       if(reimbursement.stage !== 'Employee') {
         reimbursement.nextStage = reimbursement.stage;
       }

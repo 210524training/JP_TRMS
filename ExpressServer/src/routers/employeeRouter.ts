@@ -13,9 +13,9 @@ async function submitReimbursement(req: express.Request, res: express.Response):
       req.session.user.userName, amount, date, gradeFormat, location, description,
     );
     if(success) {
-      res.status(201).send();
+      res.status(201).end();
     } else {
-      res.status(500).send();
+      res.status(500).end();
     }
   }
 }

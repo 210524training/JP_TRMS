@@ -1,6 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import dynamo from './dynamo';
-import Reimbursment from '../modules/Reimbursment';
+import Reimbursment, { Stages } from '../modules/Reimbursment';
 import log from '../log';
 
 class ReimbursmentRepo {
@@ -37,11 +37,12 @@ class ReimbursmentRepo {
         id: reimbursment.id,
       },
       ReturnConsumedCapacity: 'TOTAL',
-      UpdateExpression: 'SET amount = :a, stage = :s, nextStage = :n',
+      UpdateExpression: 'SET amount = :a, stage = :s, nextStage = :n, description = :d',
       ExpressionAttributeValues: {
         ':a': reimbursment.amount,
         ':s': reimbursment.stage,
         ':n': reimbursment.nextStage,
+        ':d': reimbursment.description,
       },
       ReturnValues: 'UPDATED_NEW',
     };
@@ -115,6 +116,53 @@ class ReimbursmentRepo {
       log.debug(data);
       if(data.Items) {
         return data.Items as Reimbursment[];
+      }
+    } catch(error) {
+      log.error(error);
+    }
+    return [];
+  }
+
+  async getBenCoStage(): Promise<Reimbursment[]> {
+    const stage1: Stages = 'Benefits Coordinator';
+    const stage2: Stages = 'Graded';
+
+    const params1: DocumentClient.QueryInput = {
+      TableName: 'reimbursements',
+      IndexName: 'stage-index',
+      KeyConditionExpression: 'stage = :stg',
+      ExpressionAttributeValues: {
+        ':stg': stage1,
+      },
+    };
+
+    const params2: DocumentClient.QueryInput = {
+      TableName: 'reimbursements',
+      IndexName: 'stage-index',
+      KeyConditionExpression: 'stage = :stg',
+      ExpressionAttributeValues: {
+        ':stg': stage2,
+      },
+    };
+
+    try {
+      const data1 = await this.docClient.query(params1).promise();
+      log.debug('First succesful query of reimbursements table');
+      log.debug(data1);
+      const data2 = await this.docClient.query(params2).promise();
+      log.debug('Second succesful query of reimbursements table');
+      log.debug(data2);
+      if(data1.Items && data2.Items) {
+        const items: Reimbursment[] = (data1.Items as Reimbursment[]);
+        const items2: Reimbursment[] = (data2.Items as Reimbursment[]);
+        const comboItems: Reimbursment[] = items.concat(items2);
+        return comboItems;
+      }
+      if(data1.Items) {
+        return data1.Items as Reimbursment[];
+      }
+      if(data2.Items) {
+        return data2.Items as Reimbursment[];
       }
     } catch(error) {
       log.error(error);

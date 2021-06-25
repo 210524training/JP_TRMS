@@ -12,13 +12,13 @@ async function login(req: express.Request, res: express.Response): Promise<void>
 
   if(req.session.isLoggedIn) {
     log.error('Login was evoked when a user was already logged in\n');
-    res.status(409).send();
+    res.status(409).end();
     return;
   }
 
   const user = await userService.login(username, password);
   if(!user) {
-    res.status(401).send();
+    res.status(401).end();
     return;
   }
 
@@ -41,12 +41,12 @@ async function logout(req: express.Request, res: express.Response): Promise<void
     });
   }
 
-  res.status(202).send();
+  res.status(202).end();
 }
 
 baseRouter.post('/login', login);
 baseRouter.post('/logout', logout);
 baseRouter.use('/employee', employeeRouter);
-baseRouter.use('/staging', stagingRouter);
+baseRouter.use('/reimbursement', stagingRouter);
 
 export default baseRouter;
